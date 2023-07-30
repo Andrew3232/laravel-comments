@@ -1,0 +1,50 @@
+version: "3.1"
+
+services:
+  webserver:
+    image: nginx:stable-alpine
+    container_name: com-webserver
+    working_dir: /var/www/app
+    ports:
+      - "${APP_PORT}:80"
+    volumes:
+      - .:/var/www/app
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+
+  app:
+    build: ./docker/php-fpm
+    container_name: com-app
+    working_dir: /var/www/app
+    volumes:
+      - .:/var/www/app
+      - ./docker/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:5.7.22
+    container_name: com-mysql
+    working_dir: /var/www/app
+    volumes:
+      - .mysqldata:/var/lib/mysql
+      - ./docker/mysql:/etc/mysql/conf.d
+    ports:
+      - "${MYSQL_PORT}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=com
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=secret
+
+  mysql-testing:
+    image: mysql:5.7.22
+    container_name: com-mysql-testing
+    volumes:
+      - ./docker/mysql:/etc/mysql/conf.d
+    ports:
+      - "${MYSQL_PORT_TEST_DB}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=com-test
+      - MYSQL_USER=user-test
+      - MYSQL_PASSWORD=secret
