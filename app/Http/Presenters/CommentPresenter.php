@@ -14,7 +14,7 @@ final class CommentPresenter implements PresenterCollectionInterface
     {
         return [
             'id' => $comment->getId(),
-            'title' => $comment->getText(),
+            'text' => $comment->getText(),
             'parentId' =>$comment->getParentId(),
             'created_at' => $comment->getCreatedAt()->longRelativeToNowDiffForHumans(),
             'replies' => $this->presentCollection($comment->replies),
