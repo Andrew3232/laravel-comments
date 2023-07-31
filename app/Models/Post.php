@@ -13,10 +13,6 @@ class Post extends Model
         'description',
     ];
 
-    protected $with = [
-        'comments'
-    ];
-
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class, 'post_id')->whereNull('parent_id');
