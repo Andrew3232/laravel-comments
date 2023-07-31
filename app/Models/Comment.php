@@ -42,6 +42,11 @@ class Comment extends Model
         return $this->text;
     }
 
+    public function getParentId(): ?int
+    {
+        return $this->parent_id;
+    }
+
     public function getCreatedAt(): Carbon
     {
         return $this->created_at;
