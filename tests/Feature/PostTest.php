@@ -44,7 +44,7 @@ class PostTest extends TestCase
 
     public function testGetPost(): void
     {
-        $response = $this->getJson(route('posts.show', ['id' => $this->post->id]));
+        $response = $this->getJson(route('posts.show', ['post' => $this->post->id]));
 
         $response->assertOk()
             ->assertJsonStructure([

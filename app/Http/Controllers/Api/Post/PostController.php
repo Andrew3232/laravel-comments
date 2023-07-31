@@ -29,7 +29,7 @@ class PostController extends ApiController
      * @param  PostPresenter  $presenter
      * @return JsonResponse
      */
-    private function show(Post $post, PostPresenter $presenter): JsonResponse
+    public function show(Post $post, PostPresenter $presenter): JsonResponse
     {
         return $this->successResponse($presenter->present($post));
     }
